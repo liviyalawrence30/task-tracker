@@ -89,3 +89,20 @@ footer{
     margin-top:30px;
     font-size:15px;
 }
+
+.done{
+    text-decoration:line-through;
+    opacity:0.6;
+}
+.overdue{
+    color:red;
+    font-weight: bold;
+}
+#task-list li{
+    background-color: white;
+    border: 1px solid black;
+    padding:15 px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    list-style:none;
+}
