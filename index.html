@@ -37,6 +37,20 @@
         </section>
         <section id="list-section">
             <h2>Task List</h2>
+            <div >
+                <button id="all">All</button>
+                <button id="pending">Pending</button>
+                <button id="done">Done</button>
+            </div>
+            <div>
+                <label for="sort-by">Sort By:</label>
+                <select id="sort-by">
+                    <option value="">Select</option>
+                    <option value="priority">Priority</option>
+                    <option value="dueDate">Due Date</option>
+                </select>
+                <p id="task-counter">Showing 0 of 0 tasks</p>
+            </div>
             <ul id="task-list"></ul>
             <button type="button" id="clear-all">Clear All</button>
         </section>
