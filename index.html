@@ -55,7 +55,18 @@
             <button type="button" id="clear-all">Clear All</button>
         </section>
         <section id="summary-section">
-            <h2>Task Summary</h2>
+            <h2>Priority Summary</h2>
+            <table id="priority-table">
+                <thead>
+                    <tr>
+                        <th>Priority</th>
+                        <th>Count</th>
+                        <th>Tasks</th>
+                    </tr>
+                </thead>
+                <tbody id="priority-table-body"></tbody>
+            </table>
+            <h2>Task Sumary</h2>
             <table id="task-table">
                 <thead>
                     <tr>
@@ -67,13 +78,14 @@
                 </thead>
                 <tbody id="task-table-body"></tbody>
             </table>
-        </section>  
+        </section>
+         
     </main>
     <footer>
         <p>&copy;2026 Task Tracker</p>
         <p>Created by Maria Liviya</p>
     </footer>
   
-    <script src="main.js"></script>
+    <script type="module" src="main.js"></script>
 </body>
 </html>

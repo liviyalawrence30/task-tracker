@@ -1,4 +1,4 @@
-
+import {TaskManager,groupBy} from "./tasks.js";
 const taskForm=document.querySelector("#task-form");
 const nameInput=document.querySelector("#task-name");
 const priorityInput= document.querySelector("#priority");
@@ -11,28 +11,23 @@ const doneButton=document.querySelector("#done");
 const sortBy=document.querySelector("#sort-by");
 const taskCounter=document.querySelector("#task-counter");
 const taskTableBody=document.querySelector("#task-table-body");
-let tasks= JSON.parse(localStorage.getItem("tasks")) || [];
+const priorityTableBody = document.querySelector("#priority-table-body");
+const manager=new TaskManager();
 let current_filter="All";
 let current_sort="";
-function saveTasks(){
-    localStorage.setItem("tasks",JSON.stringify(tasks));
-}
+
 
 taskForm.addEventListener("submit",function(event){
     event.preventDefault();
     const taskName=nameInput.value;
     const priority=priorityInput.value;
     const dueDate=duedateInput.value;
-    const newTask={
-        id:Date.now(),
+    
+    manager.add({
         name:taskName,
-        priority:priority,
-        dueDate: dueDate,
-        done:false
-    };
-    tasks.push(newTask);
-    console.log("after:",tasks);
-    saveTasks();
+        priority: priority,
+        dueDate: dueDate
+    });
     renderTasks();
 
     taskForm.reset();
@@ -41,8 +36,7 @@ taskForm.addEventListener("submit",function(event){
 });
 
 clearAllButton.addEventListener("click",function(){
-    tasks=[];
-    saveTasks();
+    manager.clearAll();
     renderTasks();
 });
 
@@ -66,33 +60,21 @@ sortBy.addEventListener("change",function(){
 function renderTasks(){
     taskList.innerHTML="";
     taskTableBody.innerHTML="";
-    let filteredTasks=[...tasks];
+    priorityTableBody.innerHTML = "";
+    let filteredTasks=manager.getAll();
     if(current_filter ==="Pending"){
-        filteredTasks=tasks.filter(function(task){
-            return !task.done;
-        });
+        filteredTasks=manager.filter("pending");
     }
     if(current_filter === "Done"){
-        filteredTasks=tasks.filter(function(task){
-            return task.done;
-        });
+        filteredTasks=manager.filter("done");
     }
     if(current_sort === "priority"){
-        const priorityOrder={
-            High:1,
-            Medium:2,
-            Low:3
-        };
-        filteredTasks.sort(function(a,b){
-            return priorityOrder[a.priority] - priorityOrder[b.priority];
-        });
+        filteredTasks=manager.sortBy("priority");
     }
     if(current_sort=== "dueDate"){
-        filteredTasks.sort(function(a,b){
-            return new Date(a.dueDate)- new Date(b.dueDate);
-        });
+        filteredTasks=manager.sortBy("dueDate");
     }
-    taskCounter.textContent=`Showing ${filteredTasks.length} of ${tasks.length} tasks`;
+    taskCounter.textContent=`Showing ${filteredTasks.length} of ${manager.getAll().length} tasks`;
 
     filteredTasks.map(function(task){
         const listItem=document.createElement("li");
@@ -109,21 +91,42 @@ function renderTasks(){
         const doneButton=document.createElement("button");
         doneButton.textContent="Done";
         doneButton.addEventListener("click",function(){
-            task.done=!task.done;
-            saveTasks();
-            renderTasks();
+             manager.toggle(task.id);
+             renderTasks();
         });
         listItem.appendChild(document.createElement("br"));
         listItem.appendChild(doneButton);
         taskList.appendChild(listItem);
+
+        
+    });
+     manager.getAll().forEach(function(task){
         const row=document.createElement("tr");
-        row.innerHTML=`
+        row.innerHTML = `
         <td>${task.name}</td>
         <td>${task.priority}</td>
         <td>${task.dueDate}</td>
-        <td>${task.done? "Done":"Pending"}</td>
+        <td>${task.done ? "Done" : "Pending"}</td>
+    `;
+    taskTableBody.appendChild(row);
+     });
+        const grouped=groupBy(manager.getAll(),"priority");
+        Object.keys(grouped).forEach(function(priority){
+            const tasks=grouped[priority].map(function(task){
+                return task.name;
+            }).join(", ");
+            const row=document.createElement("tr");
+            row.innerHTML=`
+            <td>${priority}</td>
+            <td>${grouped[priority].length}</td>
+            <td>${tasks}</td>
+        
         `;
-        taskTableBody.appendChild(row);
+        priorityTableBody.appendChild(row);
+        
+        
+        
+        
     });
    
 }
