@@ -1,0 +1,91 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+body{
+    font-family:Cursive;
+    background-color:  rgb(206, 184, 206);
+    color:rgb(102, 74, 74);
+    padding:20px;
+    line-height: 1.6;
+}
+header{
+    text-align: center;
+}
+header h1{
+    color:rgb(163, 128, 128);
+    margin-bottom: 8px;
+}
+header h2{
+    color:black;
+    font-size:20px;
+    font-weight: normal;
+}
+main{
+    max-width: 800px;
+    margin:auto;
+}
+#form-section,
+#list-section,
+#summary-section {
+    background-color: white;
+    padding:25px;
+    margin-bottom: 25px;
+    border-radius:8px;
+    box-shadow:0 2px 8px grey;
+}
+#task-form{
+    display:flex;
+    flex-direction: column;
+    gap:15px;
+}
+label{
+    font-weight: bold;
+}
+button{
+    padding:15px;
+    border:none;
+    border-radius: 5px;
+    color:rgb(102, 74, 74);
+    background-color:rgb(245, 199, 206);
+    cursor:pointer;
+    font-size: medium;
+}
+button:hover{
+    background-color: lightslategray;
+}
+input,
+select {
+    padding:10px;
+    border:1px solid grey;
+    border-radius: 5px;
+    font-size:15px;
+}
+#task-list{
+    list-style:none;
+    margin-bottom:20px;
+}
+#clear-all{
+    width: 150px;
+}
+#task-table{
+    width:100%;
+    border-collapse: collapse;
+}
+#task-table th,
+#task-table td{
+    border:1px solid grey ;
+    padding:12px;
+    text-align:left;
+}
+#task-table th{
+    background-color:rgb(245, 199, 206);
+    color:rgb(102, 74, 74);
+}
+footer{
+    text-align:center;
+    color: brown;
+    margin-top:30px;
+    font-size:15px;
+}
